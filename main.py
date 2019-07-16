@@ -10,6 +10,7 @@ class FilaPreferencial(Fila):
 
     def insertar(self, cliente):
         """Inserta un nuevo cliente en la fila preferencial"""
+        self.enfila+=1
         self.fila.append(cliente)
 
     def atender(self):
@@ -19,7 +20,9 @@ class FilaPreferencial(Fila):
 
     def abrircajanueva(self,maxenfila,filanueva):
         """Si maxenfila es menor que la cantidad de clientes actualmente en espera, abro nueva caja"""
-        pass
+        if self.enfila > maxenfila:
+
+
 
 
 
@@ -28,6 +31,7 @@ class FilaGeneral(Fila):
 
     def insertar(self, cliente):
         """Inserta un nuevo cliente en la fila no preferencial"""
+        self.enfila+=1
         self.fila.append(cliente)
 
     def atender(self):
