@@ -20,11 +20,8 @@ class FilaPreferencial(Fila):
 
     def abrircajanueva(self,maxenfila,filanueva):
         """Si maxenfila es menor que la cantidad de clientes actualmente en espera, abro nueva caja"""
-        if self.enfila > maxenfila:
-
-
-
-
+        #if self.enfila > maxenfila:
+        pass
 
 class FilaGeneral(Fila):
     """Clase que mantiene una fila de clientes no preferenciales"""
@@ -53,4 +50,22 @@ class cliente(object):
 
 if __name__ == "__main__":
     """ simular una fila en una entidad bancaria"""
-    pass
+    import numpy as np
+
+    # creo la fila general
+    filaG = FilaGeneral()
+
+    for ii in range(10):
+        # cantidad de clientes que llegan (random entre 0 y 4)
+        NuevosClientes = int((np.random.random())*5)
+
+        # inserto los clientes a la fila
+        for jj in range(NuevosClientes):
+            filaG.insertar((np.random.random())*10)
+
+        # atiendo al primero
+        filaG.atender()
+
+        print('atencion numero = ' + str(ii+1))
+        print(filaG.enfila, filaG.fila)
+        print('---------------------------')
