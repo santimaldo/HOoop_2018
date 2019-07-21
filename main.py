@@ -7,6 +7,8 @@ class Fila(object):
         """constructor de la clase Fila """
         self.enfila = 0
         self.fila = []
+    def getenfila(self):
+        return self.enfila
 
 class FilaPreferencial(Fila):
     """Clase de la fila de los clientes preferenciales"""
@@ -57,9 +59,9 @@ class Cliente(object):
 if __name__ == "__main__":
     """ simular una fila en una entidad bancaria"""
     # INPUTS
-    cantidadInicial = 30
+    cantidadInicial = 20
     maxenfila = 15
-    tiempoTotal = 100
+    tiempoTotal = 1000
     graficar = True
     clientesG_percent = 0.6
 
