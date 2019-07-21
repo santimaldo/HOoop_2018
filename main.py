@@ -1,3 +1,6 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
 class Fila(object):
     """Clase base de fila"""
     def __init__(self):
@@ -15,8 +18,9 @@ class FilaPreferencial(Fila):
 
     def atender(self):
         """Atiende al proximo cliente preferencial"""
-        self.enfila-=1
-        self.fila.pop(0)
+        if self.enfila > 0:
+            self.enfila-=1
+            self.fila.pop(0)
 
     def abrircajanueva(self,maxenfila,filanueva):
         """Si maxenfila es menor que la cantidad de clientes actualmente en espera, abro nueva caja"""
@@ -33,11 +37,12 @@ class FilaGeneral(Fila):
 
     def atender(self):
         """Atiende al proximo cliente no preferencial"""
-        self.enfila-=1
-        self.fila.pop(0)
+        if self.enfila > 0:
+            self.enfila-=1
+            self.fila.pop(0)
 
 
-class cliente(object):
+class Cliente(object):
     """clase cliente """
     def __init__(self,dni):
         """ constructor de la clase cliente """
@@ -50,22 +55,57 @@ class cliente(object):
 
 if __name__ == "__main__":
     """ simular una fila en una entidad bancaria"""
-    import numpy as np
 
-    # creo la fila general
+    cantidadInicial = 30
+
+    # creo los objetos fila
     filaG = FilaGeneral()
+    filaP = FilaPreferencial()
 
+    # FIla inicial antes de que abra el banco
+    for jj in range(cantidadInicial):
+        persona = Cliente(dni = np.random.randint(10000000,40000000))
+        categoriaID = np.random.rand()
+        if categoriaID < 0.75:
+            persona.modificarcategoria('General')
+            filaG.insertar(persona)
+        else:
+            persona.modificarcategoria('Preferencial')
+            filaP.insertar(persona)
+
+    enfilaG = [filaG.enfila]
+    enfilaP = [filaP.enfila]
+
+    # hago un loop temporal
     for ii in range(10):
         # cantidad de clientes que llegan (random entre 0 y 4)
-        NuevosClientes = int((np.random.random())*5)
+        NuevosClientes = np.random.randint(0,5)
 
         # inserto los clientes a la fila
         for jj in range(NuevosClientes):
-            filaG.insertar((np.random.random())*10)
-
+            persona = Cliente(dni = np.random.randint(10000000,40000000))
+            categoriaID = np.random.rand()
+            if categoriaID < 0.50:
+                persona.modificarcategoria('General')
+                filaG.insertar(persona)
+            else:
+                persona.modificarcategoria('Preferencial')
+                filaP.insertar(persona)
         # atiendo al primero
         filaG.atender()
+        filaP.atender()
 
-        print('atencion numero = ' + str(ii+1))
-        print(filaG.enfila, filaG.fila)
-        print('---------------------------')
+        enfilaG.append(filaG.enfila)
+        enfilaP.append(filaP.enfila)
+
+        #print('n = ', str(ii+1), 'Generl = ', filaG.enfila, \
+        #      ' +++ Preferencial = ', filaP.enfila)
+        print('General = ', filaG.enfila, ' +++ Preferencial = ', filaP.enfila)
+        print('---------------------------------------------------------')
+
+'''
+plt.figure()
+plt.plot(np.array(enfilaG), 'b-')
+plt.plot(np.array(enfilaP), 'r-')
+plt.show()
+'''
