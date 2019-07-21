@@ -7,11 +7,10 @@ class Fila(object):
         """constructor de la clase Fila """
         self.enfila = 0
         self.fila = []
-    def getenfila(self):
-        return self.enfila
 
-class FilaPreferencial(Fila):
-    """Clase de la fila de los clientes preferenciales"""
+    def getenfila(self):
+        """getter del atributo enfila """
+        return self.enfila
 
     def insertar(self, cliente):
         """Inserta un nuevo cliente en la fila preferencial"""
@@ -24,6 +23,9 @@ class FilaPreferencial(Fila):
             self.enfila-=1
             self.fila.pop(0)
 
+class FilaPreferencial(Fila):
+    """Clase de la fila de los clientes preferenciales"""
+
     def abrircajanueva(self,maxenfila,cajaNueva):
         """Si maxenfila es menor que la cantidad de clientes actualmente en espera, abro nueva caja"""
         if self.enfila > maxenfila:
@@ -33,17 +35,8 @@ class FilaPreferencial(Fila):
 class FilaGeneral(Fila):
     """Clase que mantiene una fila de clientes no preferenciales"""
 
-    def insertar(self, cliente):
-        """Inserta un nuevo cliente en la fila no preferencial"""
-        self.enfila+=1
-        self.fila.append(cliente)
-
-    def atender(self):
-        """Atiende al proximo cliente no preferencial"""
-        if self.enfila > 0:
-            self.enfila-=1
-            self.fila.pop(0)
-
+    def saludar(self):
+        print('Hola, soy una fila general')
 
 class Cliente(object):
     """clase cliente """
@@ -80,8 +73,8 @@ if __name__ == "__main__":
             persona.modificarcategoria('Preferencial')
             filaP.insertar(persona)
 
-    enfilaG = [filaG.enfila]
-    enfilaP = [filaP.enfila]
+    enfilaG = [filaG.getenfila()]
+    enfilaP = [filaP.getenfila()]
 
     # hago un loop temporal
     for ii in range(tiempoTotal):
@@ -103,12 +96,12 @@ if __name__ == "__main__":
         filaP.atender()
         filaP.abrircajanueva(maxenfila,filaP)
 
-        enfilaG.append(filaG.enfila)
-        enfilaP.append(filaP.enfila)
+        enfilaG.append(filaG.getenfila())
+        enfilaP.append(filaP.getenfila())
 
         #print('n = ', str(ii+1), 'Generl = ', filaG.enfila, \
         #      ' +++ Preferencial = ', filaP.enfila)
-        print('General = ', filaG.enfila, ' +++ Preferencial = ', filaP.enfila)
+        print('General = ', filaG.getenfila(), ' +++ Preferencial = ', filaP.getenfila() )
         print('---------------------------------------------------------')
 
 
