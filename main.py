@@ -8,7 +8,7 @@ class Fila(object):
         self.enfila = 0
         self.fila = []
 
-    def getenfila(self):
+    def get_enfila(self):
         """getter del atributo enfila """
         return self.enfila
 
@@ -54,9 +54,9 @@ if __name__ == "__main__":
     # INPUTS
     cantidadInicial = 20
     maxenfila = 15
-    tiempoTotal = 1000
+    tiempoTotal = 100
     graficar = True
-    clientesG_percent = 0.6
+    clientesG_percent = 0.55
 
     # creo los objetos fila
     filaG = FilaGeneral()
@@ -73,8 +73,8 @@ if __name__ == "__main__":
             persona.modificarcategoria('Preferencial')
             filaP.insertar(persona)
 
-    enfilaG = [filaG.getenfila()]
-    enfilaP = [filaP.getenfila()]
+    enfilaG = [filaG.get_enfila()]
+    enfilaP = [filaP.get_enfila()]
 
     # hago un loop temporal
     for ii in range(tiempoTotal):
@@ -96,12 +96,12 @@ if __name__ == "__main__":
         filaP.atender()
         filaP.abrircajanueva(maxenfila,filaP)
 
-        enfilaG.append(filaG.getenfila())
-        enfilaP.append(filaP.getenfila())
+        enfilaG.append(filaG.get_enfila())
+        enfilaP.append(filaP.get_enfila())
 
         #print('n = ', str(ii+1), 'Generl = ', filaG.enfila, \
         #      ' +++ Preferencial = ', filaP.enfila)
-        print('General = ', filaG.getenfila(), ' +++ Preferencial = ', filaP.getenfila() )
+        print('General = ', filaG.get_enfila(), ' +++ Preferencial = ', filaP.get_enfila() )
         print('---------------------------------------------------------')
 
 
