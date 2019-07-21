@@ -22,10 +22,11 @@ class FilaPreferencial(Fila):
             self.enfila-=1
             self.fila.pop(0)
 
-    def abrircajanueva(self,maxenfila,filanueva):
+    def abrircajanueva(self,maxenfila,cajaNueva):
         """Si maxenfila es menor que la cantidad de clientes actualmente en espera, abro nueva caja"""
-        #if self.enfila > maxenfila:
-        pass
+        if self.enfila > maxenfila:
+            cajaNueva.atender()
+            print('se abrio caja 2')
 
 class FilaGeneral(Fila):
     """Clase que mantiene una fila de clientes no preferenciales"""
@@ -55,8 +56,12 @@ class Cliente(object):
 
 if __name__ == "__main__":
     """ simular una fila en una entidad bancaria"""
-
+    # INPUTS
     cantidadInicial = 30
+    maxenfila = 15
+    tiempoTotal = 100
+    graficar = True
+    clientesG_percent = 0.6
 
     # creo los objetos fila
     filaG = FilaGeneral()
@@ -66,7 +71,7 @@ if __name__ == "__main__":
     for jj in range(cantidadInicial):
         persona = Cliente(dni = np.random.randint(10000000,40000000))
         categoriaID = np.random.rand()
-        if categoriaID < 0.75:
+        if categoriaID < clientesG_percent:
             persona.modificarcategoria('General')
             filaG.insertar(persona)
         else:
@@ -77,7 +82,7 @@ if __name__ == "__main__":
     enfilaP = [filaP.enfila]
 
     # hago un loop temporal
-    for ii in range(10):
+    for ii in range(tiempoTotal):
         # cantidad de clientes que llegan (random entre 0 y 4)
         NuevosClientes = np.random.randint(0,5)
 
@@ -85,7 +90,7 @@ if __name__ == "__main__":
         for jj in range(NuevosClientes):
             persona = Cliente(dni = np.random.randint(10000000,40000000))
             categoriaID = np.random.rand()
-            if categoriaID < 0.50:
+            if categoriaID < clientesG_percent:
                 persona.modificarcategoria('General')
                 filaG.insertar(persona)
             else:
@@ -94,6 +99,7 @@ if __name__ == "__main__":
         # atiendo al primero
         filaG.atender()
         filaP.atender()
+        filaP.abrircajanueva(maxenfila,filaP)
 
         enfilaG.append(filaG.enfila)
         enfilaP.append(filaP.enfila)
@@ -103,9 +109,9 @@ if __name__ == "__main__":
         print('General = ', filaG.enfila, ' +++ Preferencial = ', filaP.enfila)
         print('---------------------------------------------------------')
 
-'''
-plt.figure()
-plt.plot(np.array(enfilaG), 'b-')
-plt.plot(np.array(enfilaP), 'r-')
-plt.show()
-'''
+
+    if graficar:
+        plt.figure()
+        plt.plot(np.array(enfilaG), 'b-')
+        plt.plot(np.array(enfilaP), 'r-')
+        plt.show()
